@@ -1,5 +1,3 @@
-console.log('Connected Script');
-
 // Login Button funstionality
 
 document.getElementById('btn-login')
