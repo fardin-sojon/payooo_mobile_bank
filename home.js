@@ -1,4 +1,4 @@
-const validPin = 1234;
+let validPin = 1234;
 // Add money feature
 document.getElementById("btn-add-money")
     .addEventListener("click", function (event) {
@@ -11,7 +11,6 @@ document.getElementById("btn-add-money")
         const pin = parseInt(document.getElementById("add-pin").value)
 
         const availableBalence = parseInt(document.getElementById("available-balance").innerText)
-        console.log(availableBalence)
 
         if (accountNumber.length < 11) {
             alert("Please provide valid Accouont Number")
@@ -31,10 +30,24 @@ document.getElementById("btn-withdraw-money")
     .addEventListener("click", function (event) {
         event.preventDefault()
 
+        const agentNumber = document.getElementById("agent-number").value
         const amount = parseInt(document.getElementById("widhdraw-amount").value)
 
-        const availableBalence = parseInt(document.getElementById("available-balance").innerText)
+        const cashPin = parseInt(document.getElementById("cash-out-pin").value)
         
+
+        if (agentNumber.length < 11) {
+            alert("Please Provide valid Agent Number")
+            return;
+        }
+        if (cashPin !== validPin) {
+            alert("Please Provide valid Pin Number")
+            return;
+        }
+
+        const availableBalence = parseInt(document.getElementById("available-balance").innerText)
+
+
         const totalNewAvaibleBalance = availableBalence - amount
         console.log(totalNewAvaibleBalance)
 
