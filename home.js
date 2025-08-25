@@ -1,6 +1,13 @@
 let validPin = 1234;
 const transactionData = [];
 
+// Logout feature
+document.getElementById("logOut")
+.addEventListener("click", function(event){
+    event.preventDefault();
+    window.location.href="./index.html"
+})
+
 // function to get input values
 function getInputValueNumber(id) {
     const inputField = document.getElementById(id)
@@ -38,12 +45,6 @@ function handleToggle(id) {
         document.getElementById(id).style.display = "block"
     }
 }
-
-// Logout feature
-document.getElementById("logOut")
-addEventListener("click", function(){
-    window.location.href="./index.html"
-})
 
 // function to toggle Buttons
 function handleToggleButton(id) {
@@ -224,3 +225,5 @@ document.getElementById("transactions-button")
 
         handleToggleButton("transactions-button")
     })
+    
+    
