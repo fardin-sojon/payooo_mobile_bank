@@ -1,4 +1,5 @@
 let validPin = 1234;
+const transactionData = [];
 
 // function to get input values
 function getInputValueNumber(id) {
@@ -37,18 +38,25 @@ function handleToggle(id) {
         document.getElementById(id).style.display = "block"
     }
 }
+
+// Logout feature
+document.getElementById("logOut")
+addEventListener("click", function(){
+    window.location.href="./index.html"
+})
+
 // function to toggle Buttons
-    function handleToggleButton(id){
-        const formButtons = document.getElementsByClassName("form-btn")
+function handleToggleButton(id) {
+    const formButtons = document.getElementsByClassName("form-btn")
 
-        for(const btn of formButtons){
-            btn.classList.remove("border-[#0874f2]", "bg-[#0874f20d]")
-            btn.classList.add("border-gray-200")
-        }
-
-        document.getElementById(id).classList.remove("border-gray-200")
-        document.getElementById(id).classList.add("border-[#0874f2]", "bg-[#0874f20d]")
+    for (const btn of formButtons) {
+        btn.classList.remove("border-[#0874f2]", "bg-[#0874f20d]")
+        btn.classList.add("border-gray-200")
     }
+
+    document.getElementById(id).classList.remove("border-gray-200")
+    document.getElementById(id).classList.add("border-[#0874f2]", "bg-[#0874f20d]")
+}
 // Add money feature
 document.getElementById("btn-add-money")
     .addEventListener("click", function (event) {
@@ -57,6 +65,11 @@ document.getElementById("btn-add-money")
         const bank = getInputValue("bank")
         const accountNumber = document.getElementById("account-number").value
         const amount = getInputValueNumber("add-amount")
+
+        if(amount <= 0){
+            alert("Invalid Amount")
+            return;
+        }
 
         const pin = getInputValueNumber("add-pin")
 
@@ -73,8 +86,16 @@ document.getElementById("btn-add-money")
         }
 
         const totalNewAvaibleBalance = amount + availableBalence
-
+        console.log(totalNewAvaibleBalance)
         setInnerText(totalNewAvaibleBalance)
+
+        const data = {
+            name: "Add Money",
+            date: new Date().toLocaleTimeString()
+        }
+        transactionData.push(data)
+
+        console.log(transactionData);
     })
 // Cash Out feature
 document.getElementById("btn-withdraw-money")
@@ -83,6 +104,12 @@ document.getElementById("btn-withdraw-money")
 
         const agentNumber = document.getElementById("agent-number").value
         const amount = getInputValueNumber("widhdraw-amount")
+        const availableBalence = getInputInnerText("available-balance")
+
+        if(amount <= 0 || amount>availableBalence){
+            alert("Invalid Amount")
+            return;
+        }
 
         const cashPin = getInputValueNumber("cash-out-pin")
 
@@ -96,13 +123,47 @@ document.getElementById("btn-withdraw-money")
             return;
         }
 
-        const availableBalence = getInputInnerText("available-balance")
-
 
         const totalNewAvaibleBalance = availableBalence - amount
         console.log(totalNewAvaibleBalance)
-
         setInnerText(totalNewAvaibleBalance);
+
+        const data = {
+            name: "Cash Out",
+            date: new Date().toLocaleTimeString()
+        }
+        transactionData.push(data)
+
+        console.log(transactionData);
+    })
+
+// Transactions feature
+document.getElementById("transactions-button")
+    .addEventListener("click", function () {
+        const transactionContainer = document.getElementById("transaction-container")
+        console.log(transactionContainer);
+        
+        transactionContainer.innerText = ""
+
+        for (const data of transactionData) {
+            const div = document.createElement("div")
+            div.innerHTML = `
+            <div class=" bg-white rounded-xl p-3 flex justify-between items-center mt-3">
+          <div class="flex items-center">
+            <div class="p-3 rounded-full bg-[#0808080d]">
+              <img src="./assets/wallet1.png" alt="" class="mx-auto">
+            </div>
+            <div class="ml-2">
+              <h1>${data.name}</h1>
+              <p>${data.date}</p>
+            </div>
+          </div>
+          <i class="fa-solid fa-ellipsis-vertical"></i>
+        </div>
+            `
+
+            transactionContainer.appendChild(div)
+        }
     })
 
 // toggling feature
